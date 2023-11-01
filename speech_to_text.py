@@ -64,23 +64,23 @@ def audio_to_text(video_title):
             subprocess.run(["rm", segment_file.name])
 
 
-def segment_wav_file(video_title):
-    audio_path = audio_dir + video_title + ".wav"
+def segment_wav_file(video_file):
+    audio_path = audio_dir + video_file
 
     wav_file = AudioSegment.from_file(file=audio_path, format="wav")
 
-    segments = int(wav_file.duration_seconds // (60 * 2)) + 1
+    segments = int(wav_file.duration_seconds // 15) + 1
     if segments < 2:
         pass
     else:
         for i in range(segments):
-            start = i * 60 * 2 * 1000
-            end = (i + 1) * 60 * 2 * 1000
+            start = i * 15 * 1000
+            end = (i + 1) * 15 * 1000
             segment = wav_file[start:end] if i != segments - 1 else wav_file[start:]
             segment_file = segment.export(
                 audio_dir
                 + "/segments/"
-                + video_title
+                + video_file.split(".")[0]
                 + str(i + 1)
                 + "_"
                 + str(segments)
@@ -116,5 +116,7 @@ def segment_to_2mins(file_path):
 
 
 if __name__ == "__main__":
-    file_path = input("please enter the filename in /audios: ")
-    audio_to_text(file_path)
+    # file_path = input("please enter the filename in /audios: ")
+    # audio_to_text(file_path)
+    video_file = input("please enter the filename in /audios ")
+    segment_wav_file(video_file)
