@@ -1,29 +1,39 @@
-from crawler import get_video_script, is_caption_avaliable
-from id_crawler import get_video_ids
-from speech_to_text import audio_to_text
-from yt_downloader import download
-
-playlist_id = "PLaqvZMhnsmfVoJD61mHGbW62AuyhIck6t"
+from transcript_crawler.src.crawler import get_video_script, is_caption_avaliable
+from transcript_crawler.src.id_crawler import get_video_ids
+from transcript_crawler.src.split_and_transcribe import audio_to_text
+from transcript_crawler.src.yt_downloader import download_audio
 
 
-def main(video_id):
-    # video_list = get_video_ids(playlist_id)
+def main(playlist_id):
+    video_list = get_video_ids(playlist_id)
+    video_list.pop(0)
+    video_list.pop(0)
+    print("video_list:", video_list)
 
-    # for video_id in video_list:
-    caption_is_avaliable = is_caption_avaliable(video_id)
+    for index, video_id in enumerate(video_list):
+        print(f"processing video {index + 1}")
+        caption_is_avaliable = is_caption_avaliable(video_id)
 
-    video_url = f"https://youtu.be/{video_id}"
-    audio_name = download(video_url)
+        video_url = f"https://youtu.be/{video_id}"
+        try:
+            audio_name = download_audio(video_url)
+        except:
+            print("Failed to download video")
+            continue
 
-    if caption_is_avaliable:
-        print(True)
-        get_video_script(video_id, audio_name)
-    else:
-        print(None)
+        print(f"finished downloading {audio_name}")
 
-        audio_to_text(audio_name)
+        if caption_is_avaliable:
+            print(True)
+            get_video_script(video_id, audio_name)
+        else:
+            print(None)
+
+            audio_to_text(f"{audio_name}.wav")
+
+        print(f"finished processing {audio_name}")
 
 
 if __name__ == "__main__":
-    video_id = input("Enter video id: ")
-    main(video_id)
+    playlist_id = "PLE89H9C5A6WMP2v9uP4K0LhJ-hb2pZxjU"
+    main(playlist_id)

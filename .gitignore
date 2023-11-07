@@ -6,7 +6,6 @@ __pycache__
 
 # file folder
 audios/segments
-transcripts/evaluations
-transcripts/standup_transcript
+transcripts/
 
 audios

@@ -10,12 +10,11 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 
-audio_dir = "./audios/"
-segment_dir = "./audios/segments/"
+audio_dir = "../audios/"
+segment_dir = "../audios/segments/"
 
 
 def audio_to_text(video_title):
-    openai.api_key = openai_api_key
     audio_path = audio_dir + video_title
     file_format = video_title.split(".")[1]
     wav_file = AudioSegment.from_file(file=audio_path, format=file_format)
@@ -38,7 +37,7 @@ def audio_to_text(video_title):
             segment = wav_file[start:end] if i != segments - 1 else wav_file[start:]
             segment_file = segment.export(
                 audio_dir
-                + "/segments/"
+                + "segments/"
                 + video_title
                 + str(i + 1)
                 + "_"

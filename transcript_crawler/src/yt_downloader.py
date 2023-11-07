@@ -6,7 +6,7 @@ from pytube import YouTube
 # video_url = "https://youtu.be/5i86KxtLk4E"
 
 # VIDEO_SAVE_DIRECTORY = "./videos"
-AUDIO_SAVE_DIRECTORY = "./audios"
+AUDIO_SAVE_DIRECTORY = "../audios"
 
 
 def download_audio(video_url):
@@ -25,20 +25,22 @@ def download_audio(video_url):
     except:
         print("Failed to download video")
 
-    print("video was downloaded successfully")
+    print("audio was downloaded successfully")
 
     return yt_title
 
 
 def download_video(video_url):
-    yt = (
-        YouTube(video_url)
-        .streams.filter(progressive=True, file_extension="mp4")
-        .first()
-        .download()
+    yt = YouTube(video_url)
+    yt_title = yt.title
+
+    yt_downloader = (
+        yt.streams.filter(progressive=True, file_extension="mp4").first().download()
     )
 
     print("video was downloaded successfully")
+
+    return yt_title
 
 
 if __name__ == "__main__":
