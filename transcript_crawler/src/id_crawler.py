@@ -12,7 +12,7 @@ youtube_api_key = os.getenv("YOUTUBE_API_KEY")
 video_id_list = []
 
 
-def get_video_ids(playlist_id, page_token=""):
+def get_video_ids_from_playlist(playlist_id, page_token=""):
     url = f"https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId={playlist_id}&key={youtube_api_key}&pageToken={page_token}"
 
     resp = requests.get(url)
@@ -32,5 +32,5 @@ def get_video_ids(playlist_id, page_token=""):
 if __name__ == "__main__":
     playlist_id = "PLaqvZMhnsmfVoJD61mHGbW62AuyhIck6t"
 
-    video_id_len = get_video_ids(playlist_id)
+    video_id_len = get_video_ids_from_playlist(playlist_id)
     print(len(video_id_len))

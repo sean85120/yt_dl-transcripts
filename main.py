@@ -1,11 +1,11 @@
-from transcript_crawler.src.crawler import get_video_script, is_caption_avaliable
-from transcript_crawler.src.id_crawler import get_video_ids
+from transcript_crawler.src.id_crawler import get_video_ids_from_playlist
 from transcript_crawler.src.split_and_transcribe import audio_to_text
 from transcript_crawler.src.yt_downloader import download_audio
+from transcript_crawler.src.yt_transcript import get_video_script, is_caption_avaliable
 
 
 def main(playlist_id):
-    video_list = get_video_ids(playlist_id)
+    video_list = get_video_ids_from_playlist(playlist_id)
     video_list.pop(0)
     video_list.pop(0)
     print("video_list:", video_list)
